@@ -39,6 +39,9 @@ public class GameScreen extends BaseScreen {
         batch.draw(region, 0, 0);
         batch.draw(starShip, position.x - 35, position.y - 35, 70, 70);
         batch.end();
+        if((Math.ceil(position.x) != Math.ceil(destination.x)) & (Math.ceil(position.y) != Math.ceil(destination.y))){
+            position.add(direction.x * 0.01f, direction.y * 0.01f);
+        }
     }
 
     @Override
@@ -49,6 +52,8 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        destination.set(screenX, Gdx.graphics.getHeight() - screenY);
+        direction.set(destination.x - position.x, destination.y - position.y);
         return super.touchDown(screenX, screenY, pointer, button);
     }
 }
