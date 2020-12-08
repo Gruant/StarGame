@@ -16,11 +16,14 @@ public class GameScreen extends BaseScreen {
     protected Vector2 position;
     protected Vector2 destination;
     protected Vector2 direction;
+    protected Vector2 tmp;
+    protected static final float V_LEN = 0.5f;
 
 
     @Override
     public void show() {
         super.show();
+        tmp = new Vector2();
         img = new Texture("background.jpg");
         starShip = new Texture("X-W.png");
         position = new Vector2(Gdx.graphics.getWidth()/2f, 35);
@@ -32,6 +35,12 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        tmp.set(destination);
+        if(tmp.sub(position).len() > V_LEN){
+            position.add(direction);
+        } else {
+            position.set(destination);
+        }
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -53,7 +62,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         destination.set(screenX, Gdx.graphics.getHeight() - screenY);
-        direction.set(destination.x - position.x, destination.y - position.y);
+        direction.set(destination.cpy().sub(position)).setLength(V_LEN);
         return super.touchDown(screenX, screenY, pointer, button);
     }
 }
