@@ -15,8 +15,8 @@ public class GameScreen extends BaseScreen {
     private Texture bg;
     private Background background;
 
-//    private Texture img;
-//    private XWing xWing;
+    private Texture img;
+    private XWing xWing;
 
     @Override
     public void show() {
@@ -24,8 +24,8 @@ public class GameScreen extends BaseScreen {
         bg = new Texture("background.jpg");
         background = new Background(bg);
 
-//        img = new Texture("X-W.png");
-//        xWing = new XWing(img);
+        img = new Texture("X-W.png");
+        xWing = new XWing(img);
     }
 
     @Override
@@ -35,26 +35,26 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-//        xWing.draw(batch);
+        xWing.draw(batch);
         batch.end();
     }
 
     @Override
     public void dispose() {
         bg.dispose();
-//        img.dispose();
+        img.dispose();
         super.dispose();
     }
 
     @Override
     public void resize(Rect worldBounds) {
         background.resize(worldBounds);
-//        xWing.resize(worldBounds);
+        xWing.resize(worldBounds);
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-//        xWing.move(touch);
+        xWing.move(touch);
         return super.touchDown(touch, pointer, button);
     }
 
