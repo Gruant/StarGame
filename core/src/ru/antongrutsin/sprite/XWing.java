@@ -1,7 +1,6 @@
 package ru.antongrutsin.sprite;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -37,8 +36,10 @@ public class XWing extends Sprite {
     @Override
     public void resize(Rect worldBounds) { setHeightProportion(worldBounds.getHeight()); }
 
-    public void move(Vector2 touch){
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
         destination.set(touch);
         direction.set(destination.cpy().sub(pos)).setLength(V_LEN);
+        return false;
     }
 }
