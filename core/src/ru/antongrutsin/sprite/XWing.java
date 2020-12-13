@@ -23,21 +23,19 @@ public class XWing extends Sprite {
         this.pos.set(0, -0.4f);
     }
 
+
     @Override
-    public void draw(SpriteBatch batch) {
+    public void update(float delta) {
         tmp.set(destination);
         if(tmp.sub(pos).len() > V_LEN){
             pos.add(direction);
         } else {
             pos.set(destination);
         }
-        super.draw(batch);
     }
 
     @Override
-    public void resize(Rect worldBounds) {
-        setHeightProportion(worldBounds.getHeight());
-    }
+    public void resize(Rect worldBounds) { setHeightProportion(worldBounds.getHeight()); }
 
     public void move(Vector2 touch){
         destination.set(touch);

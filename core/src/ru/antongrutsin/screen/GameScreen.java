@@ -31,6 +31,15 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        update(delta);
+        draw();
+    }
+
+    private void update(float delta) {
+        xWing.update(delta);
+    }
+
+    private void draw() {
         Gdx.gl.glClearColor(0.55f, 0.23f, 0.9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
@@ -57,8 +66,4 @@ public class GameScreen extends BaseScreen {
         xWing.move(touch);
         return super.touchDown(touch, pointer, button);
     }
-
-
-
-
 }
