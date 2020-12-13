@@ -1,6 +1,7 @@
 package ru.antongrutsin.sprite;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,9 +13,10 @@ public class XWing extends Sprite {
     private Vector2 tmp;
     private Vector2 destination;
     private static float V_LEN = 0.005f;
+    private Rect worldBounds;
 
-    public XWing(Texture region) {
-        super(new TextureRegion(region));
+    public XWing(TextureAtlas atlas) {
+        super(splitStarShip(atlas.findRegion("main_ship"),2));
         tmp = new Vector2();
         destination = new Vector2();
         direction = new Vector2();
@@ -34,7 +36,9 @@ public class XWing extends Sprite {
     }
 
     @Override
-    public void resize(Rect worldBounds) { setHeightProportion(worldBounds.getHeight()); }
+    public void resize(Rect worldBounds) {
+        this.worldBounds = worldBounds;
+        setHeightProportion(worldBounds.getHeight()); }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
@@ -42,4 +46,14 @@ public class XWing extends Sprite {
         direction.set(destination.cpy().sub(pos)).setLength(V_LEN);
         return false;
     }
+
+    public static TextureRegion[] splitStarShip (TextureRegion textureRegion, int cols){
+        TextureRegion[] regions = new TextureRegion[2];
+        int tileWidth = textureRegion.getRegionWidth()/cols;
+        int tileHeight = textureRegion.getRegionHeight();
+        regions[0] = new TextureRegion(textureRegion, 0, tileHeight, tileWidth, tileHeight);
+        regions[1] = new TextureRegion(textureRegion, tileWidth, tileHeight, tileWidth, tileHeight);
+        return regions;
+    }
+
 }

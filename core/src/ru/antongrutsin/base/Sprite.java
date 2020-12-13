@@ -18,6 +18,11 @@ public class Sprite extends Rect {
         regions[0] = region;
     }
 
+    public Sprite (TextureRegion[] region){
+        this.regions = region;
+
+    }
+
     public void setHeightProportion(float height) {
         setHeight(height);
         float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();

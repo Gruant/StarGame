@@ -19,25 +19,23 @@ public class GameScreen extends BaseScreen {
     private Texture bg;
     private Background background;
 
-    private Texture img;
-    private XWing xWing;
-
     private TextureAtlas atlas;
+    private TextureAtlas ships;
     private Star[] stars;
+    private XWing xWing;
 
     @Override
     public void show() {
         super.show();
         bg = new Texture("background.jpg");
-        img = new Texture("X-W.png");
         atlas = new TextureAtlas("menuAtlas.tpack");
+        ships = new TextureAtlas("mainAtlas.tpack");
         background = new Background(bg);
-        xWing = new XWing(img);
+        xWing = new XWing(ships);
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
         }
-        xWing = new XWing(img);
     }
 
     @Override
@@ -69,7 +67,6 @@ public class GameScreen extends BaseScreen {
     @Override
     public void dispose() {
         bg.dispose();
-        img.dispose();
         atlas.dispose();
         super.dispose();
     }
