@@ -85,4 +85,10 @@ public class GameScreen extends BaseScreen {
         xWing.touchDown(touch, pointer, button);
         return super.touchDown(touch, pointer, button);
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        xWing.keyDown(keycode);
+        return super.keyDown(keycode);
+    }
 }
