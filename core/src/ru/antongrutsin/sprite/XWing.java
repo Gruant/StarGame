@@ -1,7 +1,6 @@
 package ru.antongrutsin.sprite;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -24,6 +23,7 @@ public class XWing extends Sprite {
     private final Vector2 v0;
 
     private Rect worldBounds;
+    private int count;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -38,6 +38,7 @@ public class XWing extends Sprite {
         bulletV = new Vector2(0, 0.5f);
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
+        count = 0;
     }
 
 
@@ -52,6 +53,12 @@ public class XWing extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
+        count++;
+        if (count == 20){
+            shoot();
+            count = 0;
+        }
+
     }
 
     @Override
@@ -72,9 +79,6 @@ public class XWing extends Sprite {
             case Input.Keys.A:
                 pressedLeft = true;
                 moveLeft();
-                break;
-            case Input.Keys.SPACE:
-                shoot();
                 break;
         }
         return false;
