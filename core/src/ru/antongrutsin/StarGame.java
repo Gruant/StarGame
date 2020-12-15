@@ -4,13 +4,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
-import ru.antongrutsin.screen.GameScreen;
+import ru.antongrutsin.screen.MenuScreen;
 
 
 public class StarGame extends Game {
 
 	@Override
 	public void create() {
-		setScreen(new GameScreen());
+		setScreen(new MenuScreen(this));
 	}
 }
