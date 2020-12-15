@@ -1,12 +1,14 @@
 package ru.antongrutsin.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.antongrutsin.base.BaseScreen;
+import ru.antongrutsin.base.ScreenMusic;
 import ru.antongrutsin.math.Rect;
 import ru.antongrutsin.pool.BulletPool;
 import ru.antongrutsin.sprite.Background;
@@ -23,6 +25,7 @@ public class GameScreen extends BaseScreen {
     private TextureAtlas atlas;
     private BulletPool bulletPool;
     private Star[] stars;
+    private ScreenMusic music;
     private XWing xWing;
 
     @Override
@@ -37,6 +40,7 @@ public class GameScreen extends BaseScreen {
         }
         bulletPool = new BulletPool();
         xWing = new XWing(atlas, bulletPool);
+        music = new ScreenMusic("sounds/gamescreen.mp3", 0.1f);
     }
 
     @Override
@@ -52,6 +56,8 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        xWing.dispose();
+        music.dispose();
         super.dispose();
     }
 

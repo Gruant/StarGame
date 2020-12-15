@@ -1,6 +1,8 @@
 package ru.antongrutsin.sprite;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +27,8 @@ public class XWing extends Sprite {
     private Rect worldBounds;
     private int count;
 
+    private Sound sound;
+
     private boolean pressedLeft;
     private boolean pressedRight;
 
@@ -39,6 +43,7 @@ public class XWing extends Sprite {
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
         count = 0;
+        sound = Gdx.audio.newSound(Gdx.files.internal("sounds/shooting.mp3"));
     }
 
 
@@ -56,6 +61,7 @@ public class XWing extends Sprite {
         count++;
         if (count == 20){
             shoot();
+            sound.play(0.05f);
             count = 0;
         }
 
@@ -160,6 +166,10 @@ public class XWing extends Sprite {
     private void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, pos, bulletV, 0.01f, worldBounds, 1);
+    }
+
+    public void dispose(){
+        sound.dispose();
     }
 
 }
