@@ -10,17 +10,24 @@ import ru.antongrutsin.pool.BulletPool;
 
 public class Enemy extends Ship {
 
+    Vector2 speedV;
+
     public Enemy(BulletPool bulletPool, Rect worldBounds) {
         super(bulletPool);
         this.worldBounds = worldBounds;
         this.v = new Vector2();
         this.v0 = new Vector2();
         this.bulletPos = new Vector2();
+        speedV = new Vector2(0,-0.4f);
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
+        // в if реализован режим быстрого появления, дальше стандартный режим боя.
+        if (getTop() < worldBounds.getTop()){
+            v.set(v0);
+        }
         bulletPos.set(pos.x, pos.y - getHalfHeight());
         if (getBottom() < worldBounds.getBottom()) {
             destroy();
@@ -47,7 +54,8 @@ public class Enemy extends Ship {
         this.damage = damage;
         this.hp = hp;
         this.reloadInterval = reloadInterval;
-        this.v.set(v0);
+        this.v0 = v0;
+        this.v.set(speedV);
         setHeightProportion(height);
     }
 }

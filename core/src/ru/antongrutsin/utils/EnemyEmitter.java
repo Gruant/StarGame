@@ -17,7 +17,7 @@ public class EnemyEmitter {
     private static final float ENEMY_SMALL_HEIGHT = 0.1f;
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final int ENEMY_SMALL_BULLET_DAMAGE = 1;
-    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
+    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 0.7f;
     private static final int ENEMY_SMALL_HP = 1;
 
     private static final float ENEMY_MIDDLE_HEIGHT = 0.15f;
@@ -112,7 +112,7 @@ public class EnemyEmitter {
                         ENEMY_BIG_HEIGHT
                 );
             }
-            enemy.pos.x = Rnd.nextFloat(worldBounds.getLeft() - enemy.getHalfWidth(), worldBounds.getRight() + enemy.getHalfWidth());
+            enemy.pos.x = Rnd.nextFloat(worldBounds.getLeft() + enemy.getHalfWidth(), worldBounds.getRight() - enemy.getHalfWidth());
             enemy.setBottom(worldBounds.getTop());
         }
     }
