@@ -7,27 +7,18 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.antongrutsin.base.Sprite;
+import ru.antongrutsin.base.Ship;
 import ru.antongrutsin.math.Rect;
 import ru.antongrutsin.pool.BulletPool;
 
-public class XWing extends Sprite {
+public class XWing extends Ship {
+    private static final int HP = 100;
+    private static final float RELOAD_INTERVAL = 0.2f;
+
     private static final float HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.05f;
 
     private static final int INVALID_POINTER = -1;
-
-    private final BulletPool bulletPool;
-    private TextureRegion bulletRegion;
-    private Vector2 bulletV;
-
-    private final Vector2 v;
-    private final Vector2 v0;
-
-    private Rect worldBounds;
-    private int count;
-
-    private Sound sound;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -36,20 +27,24 @@ public class XWing extends Sprite {
     private int rightPointer = INVALID_POINTER;
 
     public XWing(TextureAtlas atlas, BulletPool bulletPool) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2);
-        this.bulletPool = bulletPool;
+        super(atlas.findRegion("main_ship"), 1, 2, 2, bulletPool);
         bulletRegion = atlas.findRegion("bulletMainShip");
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shooting.mp3"));
         bulletV = new Vector2(0, 0.5f);
+        bulletPos = new Vector2();
+        bulletHeight = 0.01f;
+        damage = 1;
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
-        count = 0;
-        sound = Gdx.audio.newSound(Gdx.files.internal("sounds/shooting.mp3"));
+        reloadInterval = RELOAD_INTERVAL;
+        hp = HP;
     }
 
 
     @Override
     public void update(float delta) {
-        pos.mulAdd(v, delta);
+        super.update(delta);
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -57,12 +52,6 @@ public class XWing extends Sprite {
         if (getLeft() < worldBounds.getLeft()) {
             setLeft(worldBounds.getLeft());
             stop();
-        }
-        count++;
-        if (count == 20){
-            shoot();
-            sound.play(0.05f);
-            count = 0;
         }
 
     }
@@ -163,13 +152,7 @@ public class XWing extends Sprite {
         v.setZero();
     }
 
-    private void shoot() {
-        Bullet bullet = bulletPool.obtain();
-        bullet.set(this, bulletRegion, pos, bulletV, 0.01f, worldBounds, 1);
+    public void dispose() {
+        bulletSound.dispose();
     }
-
-    public void dispose(){
-        sound.dispose();
-    }
-
 }
