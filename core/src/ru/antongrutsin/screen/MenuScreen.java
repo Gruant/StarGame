@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.antongrutsin.base.BaseScreen;
+import ru.antongrutsin.base.ScreenMusic;
 import ru.antongrutsin.math.Rect;
 import ru.antongrutsin.sprite.Background;
 import ru.antongrutsin.sprite.ButtonExit;
@@ -27,6 +28,8 @@ public class MenuScreen extends BaseScreen {
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
 
+    private ScreenMusic music;
+
     private final Game game;
 
     public MenuScreen(Game game) {
@@ -45,6 +48,7 @@ public class MenuScreen extends BaseScreen {
         }
         buttonExit = new ButtonExit(atlas);
         buttonPlay = new ButtonPlay(atlas, game);
+        music = new ScreenMusic("sounds/menuscreen.mp3", 0.1f);
     }
 
     @Override
@@ -58,6 +62,7 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        music.dispose();
         super.dispose();
     }
 
