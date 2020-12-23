@@ -11,7 +11,7 @@ import ru.antongrutsin.pool.BulletPool;
 import ru.antongrutsin.pool.ExplosionPool;
 
 public class XWing extends Ship {
-    private static final int HP = 100;
+    private static final int HP = 1;
     private static final float RELOAD_INTERVAL = 0.2f;
 
     private static final float HEIGHT = 0.15f;
