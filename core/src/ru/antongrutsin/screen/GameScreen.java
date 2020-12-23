@@ -2,6 +2,7 @@ package ru.antongrutsin.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,9 +12,11 @@ import ru.antongrutsin.base.BaseScreen;
 import ru.antongrutsin.base.ScreenMusic;
 import ru.antongrutsin.math.Rect;
 import ru.antongrutsin.pool.BulletPool;
+import ru.antongrutsin.pool.EnemyPool;
 import ru.antongrutsin.sprite.Background;
 import ru.antongrutsin.sprite.Star;
 import ru.antongrutsin.sprite.XWing;
+import ru.antongrutsin.utils.EnemyEmitter;
 
 public class GameScreen extends BaseScreen {
 
@@ -23,10 +26,17 @@ public class GameScreen extends BaseScreen {
     private Background background;
 
     private TextureAtlas atlas;
+
     private BulletPool bulletPool;
+    private EnemyPool enemyPool;
+
+    private EnemyEmitter enemyEmitter;
+
     private Star[] stars;
     private ScreenMusic music;
     private XWing xWing;
+
+    private Sound bulletSound;
 
     @Override
     public void show() {
@@ -39,7 +49,10 @@ public class GameScreen extends BaseScreen {
             stars[i] = new Star(atlas);
         }
         bulletPool = new BulletPool();
+        enemyPool = new EnemyPool(bulletPool, worldBounds);
         xWing = new XWing(atlas, bulletPool);
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shooting.mp3"));
+        enemyEmitter = new EnemyEmitter(atlas, worldBounds, bulletSound, enemyPool);
         music = new ScreenMusic("sounds/gamescreen.mp3", 0.1f);
     }
 
@@ -56,6 +69,7 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
         atlas.dispose();
         bulletPool.dispose();
+        enemyPool.dispose();
         xWing.dispose();
         music.dispose();
         super.dispose();
@@ -99,11 +113,14 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         bulletPool.updateActiveObjects(delta);
+        enemyPool.updateActiveObjects(delta);
+        enemyEmitter.generate(delta);
         xWing.update(delta);
     }
 
     private void freeAllDestroyed() {
         bulletPool.freeAllDestroyedActiveObjects();
+        enemyPool.freeAllDestroyedActiveObjects();
     }
 
     private void draw() {
@@ -116,6 +133,7 @@ public class GameScreen extends BaseScreen {
             star.draw(batch);
         }
         bulletPool.drawActiveObjects(batch);
+        enemyPool.drawActiveObjects(batch);
         batch.end();
     }
 }
