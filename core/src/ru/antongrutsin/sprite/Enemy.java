@@ -7,13 +7,14 @@ import com.badlogic.gdx.math.Vector2;
 import ru.antongrutsin.base.Ship;
 import ru.antongrutsin.math.Rect;
 import ru.antongrutsin.pool.BulletPool;
+import ru.antongrutsin.pool.ExplosionPool;
 
 public class Enemy extends Ship {
 
     Vector2 speedV;
 
-    public Enemy(BulletPool bulletPool, Rect worldBounds) {
-        super(bulletPool);
+    public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds) {
+        super(bulletPool, explosionPool);
         this.worldBounds = worldBounds;
         this.v = new Vector2();
         this.v0 = new Vector2();
@@ -24,9 +25,10 @@ public class Enemy extends Ship {
     @Override
     public void update(float delta) {
         super.update(delta);
-        // в if реализован режим быстрого появления, дальше стандартный режим боя.
-        if (getTop() < worldBounds.getTop()){
-            v.set(v0);
+        if (getTop() < worldBounds.getTop()) {
+            this.v.set(v0);
+        } else {
+            reloadTimer = reloadInterval - delta * 2;
         }
         bulletPos.set(pos.x, pos.y - getHalfHeight());
         if (getBottom() < worldBounds.getBottom()) {
@@ -54,8 +56,15 @@ public class Enemy extends Ship {
         this.damage = damage;
         this.hp = hp;
         this.reloadInterval = reloadInterval;
-        this.v0 = v0;
+        this.v0.set(v0);
         this.v.set(speedV);
         setHeightProportion(height);
+    }
+
+    public boolean isBulletCollision(Bullet bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < pos.y);
     }
 }
