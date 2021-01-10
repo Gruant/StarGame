@@ -11,7 +11,7 @@ import ru.antongrutsin.pool.BulletPool;
 import ru.antongrutsin.pool.ExplosionPool;
 
 public class XWing extends Ship {
-    private static final int HP = 1;
+    private static final int HP = 100;
     private static final float RELOAD_INTERVAL = 0.2f;
 
     private static final float HEIGHT = 0.15f;
@@ -38,6 +38,20 @@ public class XWing extends Ship {
         reloadInterval = RELOAD_INTERVAL;
         hp = HP;
     }
+
+    public void startNewGame(Rect worldBounds) {
+        pressedRight = false;
+        pressedLeft = false;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+        stop();
+        this.pos.x = worldBounds.pos.x;
+        hp = HP;
+        flushDestroy();
+        frame = 0;
+        damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
+    }
+
 
 
     @Override

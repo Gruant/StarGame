@@ -12,7 +12,7 @@ import ru.antongrutsin.sprite.Explosion;
 
 public abstract class Ship extends Sprite {
 
-    private static final float DAMAGE_ANIMATE_INTERVAL = 0.1f;
+    protected static final float DAMAGE_ANIMATE_INTERVAL = 0.1f;
 
     protected TextureRegion bulletRegion;
     protected Sound bulletSound;
@@ -29,7 +29,7 @@ public abstract class Ship extends Sprite {
 
     protected float reloadInterval;
     protected float reloadTimer;
-    private float damageAnimateTimer;
+    protected float damageAnimateTimer;
 
     private final BulletPool bulletPool;
     private final ExplosionPool explosionPool;
@@ -80,6 +80,11 @@ public abstract class Ship extends Sprite {
     public int getDamage() {
         return damage;
     }
+
+    public int getHp() {
+        return hp;
+    }
+
 
     protected void shoot() {
         bulletSound.play(0.5f);
